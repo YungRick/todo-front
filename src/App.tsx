@@ -1,24 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import FrontPage from './Containers/FrontPage/';
+import TasksPage from './Containers/TasksPage/';
+import {
+  setInStorage,
+  getFromStorage,
+} from './utils/storage';
+import { API_ROOT } from './Api/api'
 
-const App: React.FC = () => {
+const App = () => {
+  const [token, setToken] = useState('')
+  const [authenticated, setAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const tryGetAuthToken = () => {
+    const obj = getFromStorage('the_main_app');
+    console.log('obj: ', obj)
+    if (obj && obj.token) {
+      const { token } = obj;
+      fetch(`${API_ROOT}/api/account/verify?token=${token}`)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            setToken(token)
+            setAuthenticated(true);
+            setLoading(false);
+          } else {
+            setLoading(false);
+          }
+        });
+    } else {
+      setLoading(false);
+    }
+  } 
+
+  useEffect(()=>{
+    tryGetAuthToken()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Link to={'/'}>
+          <div>Front-page</div>
+        </Link>
+        <Link to={'/tasks'}>
+          <div>Tasks</div>
+        </Link>
+        <Switch>
+          <Route path={'/tasks'}>
+            <TasksPage/>
+          </Route>
+          <Route
+              exact path={'/'}
+              render={(props) => 
+              <FrontPage
+                {...props}  
+                token={token} 
+                loading={loading}
+                setAuthenticated={setAuthenticated} 
+                setLoading={setLoading}
+              />}
+          />
+        </Switch>
+      </Router>
     </div>
   );
 }

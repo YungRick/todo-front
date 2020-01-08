@@ -1,0 +1,83 @@
+h1{
+  font-size: 50px;
+}
+
+body{
+  background-color: #3A7CA5;
+
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.frontpage-wrapper{
+}
+
+.header {
+  color: #e7dfdd
+}
+
+.todo-list{
+  margin: auto;
+  width: 20em;
+  background-color: #E8E8E8;
+  padding: 1em;
+
+  input{
+    padding: 1em;
+    height: 1.2em;
+    margin: auto;
+    text-align: left;
+    padding: 1em;
+    border: none;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
+  } 
+}
+
+.todo-item{
+  background-color: white;
+  color: #16425B;
+  margin: auto;
+  margin-top: 1em;
+  text-align: left;
+  list-style-type: none;
+  padding: 1em;
+  height: 1.2em;
+}
+
+.add-task-button{
+  margin-top: 1em;
+  background-color: #16425B;
+  margin-left: 1em;
+  color: white;
+  padding: 1em;
+  border-radius:10px;
+	border:1px solid #3A7CA5;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #2f6627;
+}
